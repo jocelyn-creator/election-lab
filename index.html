@@ -3,13 +3,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>選舉制度實驗室｜民意代表版</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--ink:#1a1a2e;--mute:#5a6478;--line:#d9e2ec;--acc:#1c7293;--win:#e3f3ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10162b;--card:#1a2140;--ink:#eef1fa;--mute:#a7b0c8;--line:#2c3558;--acc:#5bc0de;--win:#1d3a35}}
-:root[data-theme="dark"]{--bg:#10162b;--card:#1a2140;--ink:#eef1fa;--mute:#a7b0c8;--line:#2c3558;--acc:#5bc0de;--win:#1d3a35}
+:root{--bg:#fdf6e3;--card:#fffdf7;--ink:#14284f;--mute:#5a6478;--line:#eadfc2;--acc:#173d7a;--win:#ffeaa3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10162b;--card:#1a2140;--ink:#eef1fa;--mute:#a7b0c8;--line:#2c3558;--acc:#8fb4ff;--win:#4a3f12}}
+:root[data-theme="dark"]{--bg:#10162b;--card:#1a2140;--ink:#eef1fa;--mute:#a7b0c8;--line:#2c3558;--acc:#8fb4ff;--win:#4a3f12}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:16px}
-.top{font-size:13px;color:var(--mute);margin:4px 0 8px}
+.hd{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:4px}
+.nav{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 12px;margin-bottom:8px}
+.nav .bar{flex:1;margin:0;min-width:50px}.logo{background:var(--acc);color:#fff;border-radius:8px;padding:2px 8px;font-weight:700}
+button.sm{margin:0;padding:5px 12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font-size:13px;border-radius:999px}
+.pct{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 12px;margin-bottom:10px;font-size:14px;text-align:center}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:center}@media(max-width:600px){.hero{grid-template-columns:1fr}}
+.tag{font-size:13px;font-weight:700;color:var(--acc)}mark{background:#ffd966;color:#14284f;padding:0 4px}
+.tk{border:2px solid var(--line);border-radius:16px;padding:14px;transform:rotate(1.5deg);background:var(--bg)}
+.tkh{display:flex;justify-content:space-between;border-bottom:2px dashed var(--line);padding-bottom:6px}
+.tkr{display:flex;align-items:center;gap:8px;text-align:center;color:#14284f}.tkr span{flex:1;padding:12px;border-radius:12px}.tkr .a{background:#dbe7ff}.tkr .b{background:#ffeaa3}.tkr span:nth-child(2){flex:0;background:none;color:var(--acc)}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px}textarea.w{width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px}
 .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:14px}.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
 h1{font-size:26px;line-height:1.35;margin:0 0 10px}h2{font-size:21px;margin:0 0 8px}
@@ -19,66 +29,83 @@ button:disabled{opacity:.4;cursor:default}
 input{font:inherit;width:56px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);text-align:center}
 .seats{font-size:26px;letter-spacing:2px;margin-top:8px;word-break:break-all}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.chip{display:inline-block;margin:3px;padding:2px 10px;border:1px solid var(--line);border-radius:999px;font-size:14px;opacity:0;animation:in .4s forwards}
+.chip{display:block;padding:3px 8px;border:1px solid var(--line);border-radius:10px;font-size:13px;opacity:0;animation:in .4s forwards}
 @keyframes in{to{opacity:1}}
 .row{padding:2px 8px;margin:2px 0;border-radius:6px;font-size:14px}.win{background:var(--win)}
 .key{border-left:4px solid var(--acc);padding:4px 12px;margin-top:14px;font-weight:700}
 .sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid var(--line);padding:6px;text-align:center}td:first-child,th:first-child{text-align:left}
-.hide{display:none}
+.hide{display:none}input[type=radio]{width:auto}
 .g3{display:grid;gap:10px}.pc{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg)}.pc b{color:var(--acc)}
 .chips button{background:var(--bg);color:var(--ink);border:1px solid var(--line);margin:4px 4px 0 0;font-weight:400}.chips button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .rt{display:flex;align-items:center;gap:8px;font-size:14px;margin:2px 0 8px}.rt i{display:block;height:14px;background:var(--acc);border-radius:7px}
 input.w{width:100%;box-sizing:border-box;text-align:left;margin:4px 0}
 </style></head><body>
-<div class="wrap"><div class="top">選舉制度實驗室｜民意代表版</div><div id="app"></div></div>
+<div class="wrap"><div id="app"></div></div>
 <script>
-const app=document.getElementById('app');let i=0,pred=null,my=0,vals=[];
+const app=document.getElementById('app');let i=0,pred=null,my=0,vals=[],pr2=[0,0,0];
 const S=(b,r,c)=>`<div class="seats">${'🐻'.repeat(b)}${'🐰'.repeat(r)}${'🐱'.repeat(c)}</div><div class="mute">熊 ${b}｜兔 ${r}｜貓 ${c}</div>`;
-const D=a=>a.map((x,k)=>`<span class="chip" style="animation-delay:${k*.25}s">區${k+1} ${x}</span>`).join('');
+const D=a=>a.map((x,k)=>`<span class="chip" style="animation-delay:${k*.25}s">區${k+1}｜🐻🐻🐻🐻🐻🐰🐰🐰🐱🐱<br><small>🐻50% 🐰30% 🐱20% → ${x} 當選</small></span>`).join('');
 const L=(a,n)=>[...a].sort((x,y)=>y[1]-x[1]).map((x,k)=>`<div class="row ${k<n?'win':''}">${k<n?'✅':'▫️'} ${x[0]}　${x[1]} 票</div>`).join('');
 const POL=[['🐻','熊熊黨','A 行人優先','縮減部分車道／停車空間，大幅增加人行空間','汽機車通行與停車更不便'],['🐰','兔兔黨','B 折衷改善','改善行人環境，但盡量維持既有道路配置','行人空間的改善幅度有限'],['🐱','貓貓黨','C 車流優先','不宜再大幅壓縮汽機車使用空間','行人與周邊環境品質難以提升']];
 const Pl=(b,r,c)=>{const a=[b,r,c],t=b+r+c,m=a.findIndex(x=>x>t/2);return `<p class="mute">🏛️ 政策推演：${m>=0?`${POL[m][1]}單獨過半（${a[m]}／${t} 席），可直接通過「${POL[m][2]}」，不必依賴其他黨。`:`沒有任何黨過半（至少 ${Math.floor(t/2)+1} 席才過半），必須協商，結果可能偏向折衷。`}</p>`};
 const R=[[100,0,0],[50,30,20],[75,15,10],[40,40,20],[60,20,20]],NM=['單一選區相對多數決','比例代表制','並立制','複數選區｜分票不平均','複數選區｜分票較平均'];
 const V=[['代表性','比例代表制較接近得票比例（5／3／2）。'],['少數意見','單一選區下兔、貓合計 0 席；比例制讓他們共拿 5 席。'],['多數決定','單一選區讓最大黨取得 100% 席次，決策最明確。'],['政府穩定','一黨過半較容易穩定決策；比例制常需協商，也可能拖慢。'],['地方代表性','一區一席讓每個地方都有自己的代表。']];
 const sc=[
-{home:1},{policy:1},{pred:1},
+{home:1},{intro:1,nm:1},{pred:1},
 {h:'第一輪｜10 個選區，票最多的就贏',p:'每區選 1 位民意代表，不必過半，得票最多就當選。每區民意都是 🐻50%、🐰30%、🐱20%。',a:'逐區開票',
-r:()=>`<div>${D(Array(10).fill('🐻'))}</div>${S(10,0,0)}${Pl(10,0,0)}<p>${pred?`你的預測：熊 ${pred[0]}、兔 ${pred[1]}、貓 ${pred[2]}。`:''}另外 50% 選民的支持，為什麼沒有變成席次？</p>`,
+r:()=>`<div class="dg">${D(Array(10).fill('🐻'))}</div>${S(10,0,0)}<p>${pred?`你的預測：熊 ${pred[0]}、兔 ${pred[1]}、貓 ${pred[2]}。`:''}另外 50% 選民的支持，為什麼沒有變成席次？</p><div class="key">🤔 批判思考</div><p>① 每一區都是 🐻 領先，結果 🐰、🐱 的選民意見去了哪裡？<br>② 這樣的結果「合理」嗎？請寫下你支持或反對的理由。<br>③ 如果你是 🐰 的支持者，你會怎麼回應？</p><textarea class="w" rows="3" placeholder="寫下你的想法…"></textarea>`,
 k:'單一選區＝每區 1 席；相對多數＝票最多者勝，不必超過 50%。'},
-{h:'第二輪｜只換規則：全國按比例分 10 席',p:'選民鎖定，沒有人改變支持。不分選區，各黨依全國得票比例分配席次。',a:'用新規則開票',
-r:()=>`${S(5,3,2)}${Pl(5,3,2)}<p class="mute">本關採 5／3／2 簡化分配；真實制度還會受分配公式、門檻與席次數影響。</p>`,
+{inp:1,h:'第二輪｜只換規則：全國按比例分 10 席',p:'選民鎖定，沒有人改變支持。不分選區，各黨依全國得票比例分配 10 席。請你先自己填：三黨各該得幾席？（合計 10）',a:'公布比例分配結果',
+r:()=>`<p>你填的：熊 ${pr2[0]}、兔 ${pr2[1]}、貓 ${pr2[2]}</p>${S(5,3,2)}<p class="mute">本關採 5／3／2 簡化分配；真實制度還會受分配公式、門檻與席次數影響。</p><div class="key">🤔 批判思考</div><p>① 你的算法是什麼？和 5／3／2 一樣嗎？<br>② 若總席次只有 3 席，50／30／20 該怎麼分？小數怎麼處理才公平？<br>③ 熊熊黨 5 席沒有過半（至少 6 席），這對決策可能帶來什麼影響？這算優點還是缺點？</p><textarea class="w" rows="3" placeholder="寫下你的想法…"></textarea>`,
 k:'比例＝席次盡量反映各黨得票比例；但門檻、席次數與算法仍有取捨。'},
-{h:'第三輪｜同樣支持度，不同分布',p:'兩國都是「每區 1 席，票最多者當選」，全國支持度同為 50／30／20，只有支持者的地理分布不同。',a:'兩國同時開票',
-r:()=>`<div class="cols"><div><b>彩虹國 A｜平均散布</b>${S(7,1,2)}${Pl(7,1,2)}<span class="mute">熊在前 7 區各約 55% 勝出</span></div><div><b>彩虹國 B｜集中在少數區</b>${S(3,5,2)}${Pl(3,5,2)}<span class="mute">熊票集中在前 3 區，其餘區由兔、貓以約 45%、39% 領先</span></div></div>`,
+{h:'第三輪｜同樣支持度，不同分布',p:'同一個彩虹國，同樣是「每區 1 席，票最多者當選」，全國支持度也同為 50／30／20，只有「選區怎麼劃、支持者住在哪裡」不同。下面是兩種選區分布。',a:'兩種選區同時開票',
+r:()=>`<div class="cols"><div><b>選區分布 A｜支持者較平均散布</b>${S(7,1,2)}<span class="mute">熊在前 7 區各約 55% 勝出</span></div><div><b>選區分布 B｜支持者集中在少數區</b>${S(3,5,2)}<span class="mute">熊票集中在前 3 區，其餘區由兔、貓以約 45%、39% 領先</span></div></div><div class="key">🤔 批判思考</div><p>哪一種分布對小黨有利？「選區怎麼劃」會不會也是一種政治決定？由誰來決定才公平？</p>`,
 k:'得票率一樣，支持者「在哪裡」也會改變民意代表的組成。'},
 {h:'第四輪｜兩張票，分開計算',p:'彩虹國希望民意代表機關同時兼顧：區域代表 10 席（一區一席），加上政黨比例 10 席。兩條軌道各自開票，彼此不補償。',a:'分開計算，再加總',
-r:()=>`<p>第 1 票選人（區域 10 席）</p>${S(10,0,0)}<p>第 2 票選黨（比例 10 席）</p>${S(5,3,2)}<p><b>合計 20 席：熊 15、兔 3、貓 2</b><br>席次率：熊 75%（支持率 50%）、兔 15%（30%）、貓 10%（20%）</p>${Pl(15,3,2)}`,
+r:()=>`<p>第 1 票選人（區域 10 席）</p>${S(10,0,0)}<p>第 2 票選黨（比例 10 席）</p>${S(5,3,2)}<p><b>合計 20 席：熊 15、兔 3、貓 2</b><br>席次率：熊 75%（支持率 50%）、兔 15%（30%）、貓 10%（20%）</p>`,
 k:'並立制的關鍵：比例席不會補償區域席造成的失衡。'},
 {h:'第五輪｜一個選區選出多席',p:'只有 1 個選區，選 5 席，每人 1 票，前 5 名當選。熊熊黨 50 票分給三人，兔兔黨 16／14，貓貓黨 20。',a:'公布前 5 名',
-r:()=>`<div class="cols"><div><b>第一次：熊票 28／12／10</b>${L([['🐻 熊A',28],['🐱 貓',20],['🐰 兔甲',16],['🐰 兔乙',14],['🐻 熊B',12],['🐻 熊C',10]],5)}${S(2,2,1)}<span class="mute">熊 C 落選</span>${Pl(2,2,1)}</div><div><b>第二次：熊票 18／17／15</b>${L([['🐱 貓',20],['🐻 熊A',18],['🐻 熊B',17],['🐰 兔甲',16],['🐻 熊C',15],['🐰 兔乙',14]],5)}${S(3,1,1)}${Pl(3,1,1)}</div></div>`,
+r:()=>`<div class="cols"><div><b>第一次：熊票 28／12／10</b>${L([['🐻 熊A',28],['🐱 貓',20],['🐰 兔甲',16],['🐰 兔乙',14],['🐻 熊B',12],['🐻 熊C',10]],5)}${S(2,2,1)}<span class="mute">熊 C 落選</span></div><div><b>第二次：熊票 18／17／15</b>${L([['🐱 貓',20],['🐻 熊A',18],['🐻 熊B',17],['🐰 兔甲',16],['🐻 熊C',15],['🐰 兔乙',14]],5)}${S(3,1,1)}</div></div>`,
 k:'同黨候選人既是隊友也是對手；候選人之間怎麼分票，也會改變政黨席次。'},
 {h:'第六輪｜相對多數與絕對多數',p:'熊熊候選人拿到 50%，兔 30%、貓 20%。如果規定必須「超過 50%」才當選，會怎樣？',a:'用絕對多數決開票',
 r:()=>`<p><b>第一輪無人當選。</b>50% 沒有超過一半，前兩名（熊 50%、兔 30%）進入第二輪，選民必須再投一次。</p>`,
 k:'同樣的支持度，相對多數決已有勝者，絕對多數決卻還沒有。'},
-{h:'新增｜山城鎮議會',p:'山城鎮是 1 個選區選 4 席民意代表，每人 1 票，前 4 名當選。🟦 藍黨提名 A、B、C，🟩 綠黨提名 D、E，🟨 黃黨提名 F。共 100 票：A 24、B 20、C 16、D 22、E 8、F 10。先猜：誰會當選？',a:'公布前 4 名',
+{nm:1,h:'新增｜地方議會：山城鎮議會',p:'山城鎮議會是地方民意代表機關，1 個選區選 4 席，每人 1 票，前 4 名當選。🟦 藍黨提名 A、B、C，🟩 綠黨提名 D、E，🟨 黃黨提名 F。共 100 票：A 24、B 20、C 16、D 22、E 8、F 10。先猜：誰會當選？',a:'公布前 4 名',
 r:()=>`${L([['🟦 藍A',24],['🟦 藍B',20],['🟦 藍C',16],['🟩 綠D',22],['🟩 綠E',8],['🟨 黃F',10]],4)}<p>藍 3 席（75%）、綠 1 席（25%）、黃 0 席（0%）<br><span class="mute">得票率：藍 60%、綠 30%、黃 10%</span></p>`,
 k:'黃黨有 10% 支持，但沒有人超過第 4 名的 16 票；藍黨提名 3 人且票分得剛好，席次率被放大。'},
-{sum:1},{mine:1},{fair:1},{exit:1}];
-function show(){const s=sc[i];let h=`<div class="bar"><i style="width:${i/(sc.length-1)*100}%"></i></div><div class="card">`;
-if(s.home)h+=`<h1>同一批選民，民意代表竟然變了一個樣？</h1><p>彩虹國有 100 位選民、10 席民意代表、3 個政黨。學校周邊道路要重新規劃，三個政黨各有主張。從頭到尾，沒有人改變心意。你能猜到民意代表機關會做出什麼決定嗎？</p><p>🐻 熊熊黨 50%　🐰 兔兔黨 30%　🐱 貓貓黨 20%</p><button onclick="go(1)">開始挑戰</button>`;
+{sum:1},
+{h:'角色關｜先承認自己的利益',p:'你現在是 🐰 兔兔黨支持者。兔兔黨全國有 30% 支持，卻常在各區居第二。若只考慮「讓自己支持的政黨多拿席次」，你會選哪一套？',ch:[['每區 1 席，最高票勝','兔兔黨可能多區第二，卻沒有席次。'],['全國按比例分席','約三成支持，有機會換成約三成席次。']]},
+{vals:1},
+{h:'制度設計師｜你會怎麼把民意換成席次？',p:'先讀白話規則，選一種你想採用的設計。選完才揭曉正式名稱與取捨。',ch:[['A　一區選一人：全國分成 10 區，每區最高票者拿走唯一席次。','正式名稱：單一選區相對多數決。取捨：各地有代表、結果明確，但小黨與分散的支持容易沒有席次。'],['B　全國按票分席：政黨票合在一起，依得票比例分配 10 席。','正式名稱：比例代表制。取捨：席次接近得票，但與地方的連結較弱，常需協商。'],['C　兩種方法都用：部分席次由選區選出，部分依政黨票比例分配。','正式名稱：混合制（並立制）。取捨：兼顧地方與全國，但比例席不會補償區域席的失衡。']]},
+{knob:1},{taiwan:1},{policy:1},{mine:1},{fair2:1},{exit:1}];
+function show(){const s=sc[i];let h=`<div class="hd"><div class="nav"><span class="logo">✓</span><b>選舉制度實驗室</b><div class="bar"><i style="width:${i/(sc.length-1)*100}%"></i></div><button class="sm" ${i?'':'disabled'} onclick="go(i-1)">← 返回</button><button class="sm" onclick="go(0)">首頁</button></div>${s.nm?'':'<div class="pct">🐻 熊熊黨 <b>50%</b>　🐰 兔兔黨 <b>30%</b>　🐱 貓貓黨 <b>20%</b>　<span class="mute">民意固定不變</span></div>'}</div><div class="card">`;
+if(s.home)h+=`<div class="hero"><div><div class="tag">選舉制度互動遊戲</div><h1>同一批選民，<br><mark>民意代表竟然變了一個樣</mark>？</h1><p>彩虹國有 100 位選民、10 席民意代表、3 個政黨。從頭到尾，沒有人改變心意。你能猜到開票結果嗎？</p><p class="mute">民意代表包含中央的國會（如立法委員）與地方的議會（如縣市議員、鎮議員）。</p><button onclick="go(1)">開始挑戰</button></div><div class="tk"><div class="tkh"><b>彩虹國選舉單</b><span>🗳️</span></div><p>100 個人的民意，會變成怎樣的 10 個席次？</p><div class="tkr"><span class="a">民意</span><span>→</span><span class="b">席次</span></div></div></div>`;
 else if(s.pred)h+=`<h2>先猜：10 席民意代表會怎麼分？</h2><p>手動輸入你的直覺預測，三黨合計必須是 10 席。</p><p>🐻 <input id="p0" type="number" min="0" max="10" oninput="chk()"> 🐰 <input id="p1" type="number" min="0" max="10" oninput="chk()"> 🐱 <input id="p2" type="number" min="0" max="10" oninput="chk()"></p><p class="mute" id="tot">0／10</p><button id="lock" disabled onclick="lockP()">鎖定預測</button>`;
-else if(s.policy)h+=`<h2>序章｜學校周邊道路要重新規劃</h2><p>三個政黨各代表一種政策立場，支持度固定為 50％、30％、20％。先做你自己的判斷：你支持哪一案？</p><div class="g3">${POL.map((p,k)=>`<div class="pc"><b>${p[0]} ${p[1]}｜${p[2]}</b>（支持度 ${[50,30,20][k]}％）<br>主張：${p[3]}<br><span class="mute">代價：${p[4]}</span><br><button onclick="pick(${k})">我支持這一案</button></div>`).join('')}</div>`;
+else if(s.intro)h+=introH();else if(s.ch)h+=chH(s);else if(s.knob)h+=knobH();else if(s.taiwan)h+=twH();else if(s.fair2)h+=f2H();
+else if(s.policy)h+=`<h2>延伸思考｜學校周邊道路要重新規劃</h2><p>遊戲結束了。現在把同樣的 50／30／20 換成三種公共政策立場，交給民意代表機關（國會或地方議會）決定。先做你自己的判斷：你支持哪一案？</p><div class="g3">${POL.map((p,k)=>`<div class="pc"><b>${p[0]} ${p[1]}｜${p[2]}</b>（支持度 ${[50,30,20][k]}％）<br>主張：${p[3]}<br><span class="mute">代價：${p[4]}</span><br><button onclick="pick(${k})">我支持這一案</button></div>`).join('')}</div>`;
 else if(s.mine)h+=mineH();
-else if(s.fair)h+=`<h2>去角色化｜對我有利 ＝ 公平？</h2><p>現在你不屬於任何政黨。選出最想優先守住的兩個價值，沒有唯一答案，每個選擇都有代價。</p><div class="chips" id="vc"></div><div id="vr"></div><button id="vb" disabled onclick="go(i+1)">下一步</button>`;
+else if(s.vals)h+=`<h2>去角色化｜對我有利，不一定等於公平</h2><p>現在你不屬於任何政黨。選出最想優先守住的兩個價值，沒有唯一答案，每個選擇都有代價。</p><div class="chips" id="vc"></div><div id="vr"></div><button id="vb" disabled onclick="go(i+1)">下一步</button>`;
 else if(s.exit)h+=`<h2>Exit Ticket｜三句話完成統整</h2><p>① 我支持的行人政策是</p><input class="w" id="e1" value="${POL[my][2]}"><p>② 對我的政策立場而言，我較偏好哪一種選制？為什麼？</p><input class="w" id="e2" placeholder="選制"><input class="w" id="e3" placeholder="因為…"><p>③ 若不只考慮自己的利益，判斷選制是否公平，還必須考慮…</p><input class="w" id="e4"><button onclick="fin()">完成統整</button><div id="xr"></div>`;
 else if(s.sum)h+=`<h2>最後結論</h2><p class="mute">固定支持度：🐻 50%　🐰 30%　🐱 20%</p><div class="sc"><table><tr><th>選舉制度</th><th>熊</th><th>兔</th><th>貓</th><th>觀察</th></tr><tr><td>單一選區相對多數決</td><td>10</td><td>0</td><td>0</td><td>各區第一名全拿</td></tr><tr><td>比例代表制</td><td>5</td><td>3</td><td>2</td><td>較接近得票比例</td></tr><tr><td>並立制（20 席）</td><td>15</td><td>3</td><td>2</td><td>兩類席次分開算</td></tr><tr><td>複數｜分票不平均</td><td>2</td><td>2</td><td>1</td><td>同黨票源過度集中</td></tr><tr><td>複數｜分票較平均</td><td>3</td><td>1</td><td>1</td><td>配票改變最後一席</td></tr><tr><td>絕對多數決</td><td colspan="3">第一輪無人當選</td><td>50% 沒超過一半</td></tr></table></div><p class="mute">山城鎮議會（藍／綠／黃）：3／1／0 席。</p><div class="key">選舉制度是民意與民意代表席次之間的轉換器：選民沒有改變，制度也能改變誰當選、誰被代表。</div><button onclick="go(i+1)">下一步：這對我有利嗎？</button>`;
-else h+=`<h2>${s.h}</h2><p>${s.p}</p><button id="act" onclick="act()">${s.a}</button><div id="res" class="hide"></div><button id="nx" class="hide" onclick="go(i+1)">下一關</button>`;
-app.innerHTML=h+'</div>';if(s.fair)pf();window.scrollTo(0,0)}
-function act(){const s=sc[i];const r=document.getElementById('res');r.innerHTML=s.r()+`<div class="key">${s.k}</div>`;r.classList.remove('hide');document.getElementById('act').classList.add('hide');document.getElementById('nx').classList.remove('hide')}
+else h+=`<h2>${s.h}</h2><p>${s.p}</p>${s.inp?INP:''}<button id="act" ${s.inp?'disabled':''} onclick="act()">${s.a}</button><div id="res" class="hide"></div><button id="nx" class="hide" onclick="go(i+1)">下一關</button>`;
+app.innerHTML=h+'</div>';if(s.vals)pf();if(s.knob)kn();window.scrollTo(0,0)}
+function act(){const s=sc[i];if(s.inp)pr2=[0,1,2].map(k=>+document.getElementById('q'+k).value||0);const r=document.getElementById('res');r.innerHTML=s.r()+`<div class="key">${s.k}</div>`;r.classList.remove('hide');document.getElementById('act').classList.add('hide');document.getElementById('nx').classList.remove('hide')}
 function chk(){const v=[0,1,2].map(k=>+document.getElementById('p'+k).value||0);const t=v[0]+v[1]+v[2];document.getElementById('tot').textContent=t+'／10';document.getElementById('lock').disabled=t!==10}
 function lockP(){pred=[0,1,2].map(k=>+document.getElementById('p'+k).value||0);go(3)}
 function go(n){i=n;show()}
-function pick(k){my=k;go(2)}
+const INP=`<p>🐻 <input id="q0" type="number" min="0" max="10" oninput="c2()"> 🐰 <input id="q1" type="number" min="0" max="10" oninput="c2()"> 🐱 <input id="q2" type="number" min="0" max="10" oninput="c2()"></p><p class="mute" id="qt">0／10</p>`;
+function c2(){const t=[0,1,2].reduce((a,k)=>a+(+document.getElementById('q'+k).value||0),0);document.getElementById('qt').textContent=t+'／10';document.getElementById('act').disabled=t!==10}
+function pick(k){my=k;go(i+1)}
+const ST=[['中央×行政','總統','選 1 組正副總統；得票最多的一組當選。'],['中央×立法','立法委員（國會）','區域立委是一區 1 席；另有政黨票選出的不分區立委，整體採兩票並立的混合設計。'],['地方×行政','縣市長','每個地方選 1 位首長；得票最多者當選。'],['地方×立法','縣市議員（地方議會）','多數選區有多個席次；每人投 1 位候選人，再依票數高低取足名額。']];
+function introH(){return `<h2>序章｜十秒定位：中央／地方 × 行政／立法</h2><p>先點選：這場遊戲研究的主角，是「一位首長」，還是「多個民意代表席次」？</p><div class="g3">${ST.map((x,k)=>`<button onclick="ip(${k})">${x[0]}｜${x[1]}</button>`).join('')}</div><div id="ir"></div>`}
+function ip(k){document.getElementById('ir').innerHTML=k%2?`<div class="key">對了！民意代表有多個席次：中央叫國會，地方叫議會。這場遊戲研究的就是這一類。</div><button onclick="go(i+1)">進入彩虹國</button>`:`<div class="key">首長只有 1 席，不需要分席次。再試試「立法」那一列。</div>`}
+function chH(s){return `<h2>${s.h}</h2><p>${s.p}</p><div class="g3">${s.ch.map((c,k)=>`<button onclick="cp(${k})">${c[0]}</button>`).join('')}</div><div id="ir"></div>`}
+function cp(k){document.getElementById('ir').innerHTML=`<div class="key">${sc[i].ch[k][1]}</div><button onclick="go(i+1)">下一步</button>`}
+const BS=[[2,1,5,4,5],[3,2,4,3,4],[4,3,3,3,3],[5,4,2,2,1]],ML=['1 席：小選區','3 席：中選區','6 席：大選區','10 席：全國一區'];
+function knobH(){return `<h2>制度設計師｜終極控制室</h2><p>調旋鈕，觀察取捨。分數是教學用相對指標，呈現一般傾向，不是好壞評分。</p><p>每區選幾席？<br><input id="km" type="range" min="0" max="3" value="0" oninput="kn()" style="width:100%"><span id="kl"></span></p><p>怎麼決定當選？ <label><input type="radio" name="kr" checked onchange="kn()">相對多數（票高者當選）</label> <label><input type="radio" name="kr" id="kp" onchange="kn()">比例分配</label></p><div id="kb"></div><button onclick="go(i+1)">下一步</button>`}
+function kn(){const m=+document.getElementById('km').value,p=document.getElementById('kp').checked,a=[1,1,-1,-1,0];document.getElementById('kl').textContent=ML[m];document.getElementById('kb').innerHTML=V.map((v,k)=>{const x=Math.min(5,Math.max(1,BS[m][k]+(p?a[k]:0)));return `<div>${v[0]}</div><div class="rt"><i style="width:${x*18}%"></i>${x}／5</div>`}).join('')}
+function twH(){return `<h2>回到臺灣｜先問：哪一層？選一人還是多席？</h2><div class="g3">${ST.map(x=>`<div class="pc"><b>${x[1]}</b>（${x[0]}）<br>${x[2]}</div>`).join('')}</div><div class="key">口訣：行政首長多是「一個職位」；民意代表要再看「一區幾席、投人或投黨、如何分席」。</div><h2 style="margin-top:16px">最後結論</h2><p>🗣️ 民意 → ⚙️ 選舉制度 → 🏛️ 席次（國會或地方議會）</p><p><b>得票率不一定等於席次率。</b><br><b>地理分布也可能改變結果。</b><br><b>制度是在價值間做選擇</b>：地方代表性、比例公平、政局穩定等目標，往往需要權衡。</p><button onclick="go(i+1)">延伸思考：公共政策</button>`}
+function f2H(){return `<h2>對我有利＝公平？</h2><p>你先前優先守住的價值：</p>${vals.length?vals.map(k=>`<p><b>${V[k][0]}</b>：${V[k][1]}</p>`).join(''):'<p class="mute">（你還沒選價值，可回到「去角色化」那一關選擇）</p>'}<p>想一想：對照你支持的「${POL[my][2]}」與上一頁偏好的制度，這個制度只是對你有利，還是真的符合你想守住的價值？</p><div class="key">對我的立場最有利的制度，不一定是最公平的制度；不同價值互有取捨，不預設唯一正確的選制。</div><button onclick="go(i+1)">寫 Exit Ticket</button>`}
 function mineH(){const v=R.map(x=>x[my]),mx=Math.max(...v);return `<h2>制度對我的立場有利嗎？</h2><p>你支持「${POL[my][2]}」（支持度 ${[50,30,20][my]}％）。同樣的民意，這個立場在各制度下取得的席次率：</p>${NM.map((n,k)=>`<div>${n}</div><div class="rt"><i style="width:${v[k]*.8}%"></i>${v[k]}%${v[k]===mx?' ⭐':''}</div>`).join('')}<p class="mute">⭐ 為對你的立場席次率最高的制度。</p><div class="key">對我的政策最有利的制度，就是最公平的制度嗎？</div><button onclick="go(i+1)">想一想</button>`}
 function pf(){document.getElementById('vc').innerHTML=V.map((v,k)=>`<button class="${vals.includes(k)?'on':''}" onclick="tv(${k})">${v[0]}</button>`).join('');document.getElementById('vr').innerHTML=vals.map(k=>`<p><b>${V[k][0]}</b>：${V[k][1]}</p>`).join('')+(vals.length==2?'<div class="key">優先守住這兩項，就可能放棄其他價值；不同價值互有取捨，沒有唯一正確的選制。</div>':'');document.getElementById('vb').disabled=vals.length!=2}
 function tv(k){vals=vals.includes(k)?vals.filter(x=>x!=k):vals.length<2?[...vals,k]:vals;pf()}
